@@ -1,28 +1,43 @@
 package controlador;
 
 import conexion.Conexion;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class UsuarioController {
 
-    public boolean login(String correo, String pass) {
+    public boolean validarUsuario(String usuario, String contrasena) {
+
+        boolean existe = false;
 
         try {
+
             Connection con = Conexion.getConexion();
 
-            String sql = "SELECT * FROM usuarios WHERE correo=? AND contrasena=?";
+            String sql = "SELECT * FROM usuarios WHERE usuario=? AND contrasena=?";
+
             PreparedStatement ps = con.prepareStatement(sql);
 
-            ps.setString(1, correo);
-            ps.setString(2, pass);
+            ps.setString(1, usuario);
+            ps.setString(2, contrasena);
 
             ResultSet rs = ps.executeQuery();
 
-            return rs.next(); // Polimorfismo implícito (boolean)
+            if(rs.next()) {
 
-        } catch (SQLException e) {
-            System.out.println("Error login: " + e.getMessage());
-            return false;
+                existe = true;
+
+            }
+
+        } catch(Exception e) {
+
+            System.out.println("Error al validar usuario: " + e.getMessage());
+
         }
+
+        return existe;
+
     }
+
 }

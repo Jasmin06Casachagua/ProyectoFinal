@@ -1,5 +1,4 @@
 package conexion;
-//Prueba
 
 public class TestConexion {
 

@@ -1,7 +1,11 @@
 package vista;
 
 public class Main {
+
     public static void main(String[] args) {
-        new Login(); // INICIA TODO EL SISTEMA
+
+        Login login = new Login();
+        login.setVisible(true);
+
     }
 }

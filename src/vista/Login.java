@@ -1,65 +1,102 @@
 package vista;
 
 import controlador.UsuarioController;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class Login extends JFrame {
 
-    private JTextField txtCorreo;
+    private UsuarioController usuarioController;
+
+    private JTextField txtUsuario;
+
     private JPasswordField txtPass;
+
+    private JButton btnIngresar;
 
     public Login() {
 
-        setTitle("Login");
-        setSize(300, 200);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        usuarioController = new UsuarioController();
+
+        setTitle("Sistema NAMI");
+
+        setSize(400,300);
+
+        setLocationRelativeTo(null);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         setLayout(null);
-        new MenuPrincipal();
-        dispose();
 
         getContentPane().setBackground(Color.decode("#E3AAAA"));
 
-        JLabel lbl1 = new JLabel("Usuario:");
-        lbl1.setBounds(20, 30, 80, 20);
+        JLabel lblTitulo = new JLabel("Inicio de Sesión NAMI");
 
-        txtCorreo = new JTextField();
-        txtCorreo.setBounds(100, 30, 150, 20);
+        lblTitulo.setBounds(110,30,200,30);
 
-        JLabel lbl2 = new JLabel("Contraseña:");
-        lbl2.setBounds(20, 70, 80, 20);
+        add(lblTitulo);
+
+        JLabel lblUsuario = new JLabel("Usuario:");
+
+        lblUsuario.setBounds(50,80,80,25);
+
+        add(lblUsuario);
+
+        txtUsuario = new JTextField();
+
+        txtUsuario.setBounds(130,80,180,25);
+
+        add(txtUsuario);
+
+        JLabel lblPass = new JLabel("Contraseña:");
+
+        lblPass.setBounds(50,120,80,25);
+
+        add(lblPass);
 
         txtPass = new JPasswordField();
-        txtPass.setBounds(100, 70, 150, 20);
 
-        JButton btnLogin = new JButton("Ingresar");
-        btnLogin.setBounds(100, 110, 100, 30);
+        txtPass.setBounds(130,120,180,25);
 
-        btnLogin.setBackground(Color.decode("#D3D3D3"));
+        add(txtPass);
 
-        add(lbl1); add(txtCorreo);
-        add(lbl2); add(txtPass);
-        add(btnLogin);
+        btnIngresar = new JButton("Ingresar");
 
-        // Evento Botón
-        btnLogin.addActionListener(e -> {
+        btnIngresar.setBounds(130,170,120,35);
 
-            UsuarioController uc = new UsuarioController();
+        add(btnIngresar);
 
-            if (uc.login(txtCorreo.getText(), txtPass.getText())) {
+        btnIngresar.addActionListener(e -> {
 
-                JOptionPane.showMessageDialog(null, "Bienvenido");
+            String usuario = txtUsuario.getText();
+
+            String contraseña =
+                    String.valueOf(txtPass.getPassword());
+
+            if(usuarioController.validarUsuario(usuario, contraseña)) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Bienvenido al Sistema NAMI"
+                );
 
                 new MenuPrincipal();
+
                 dispose();
 
             } else {
-                JOptionPane.showMessageDialog(null, "Datos incorrectos");
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Usuario o contraseña incorrectos"
+                );
+
             }
+
         });
 
         setVisible(true);
+
     }
+
 }
